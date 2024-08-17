@@ -49,15 +49,15 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
 
     if [ -s "$ROOTFS_DIR/usr/local/bin/coolioconfig.yml" ]; then
 
-      chmod 755 $ROOTFS_DIR/usr/local/bin/proot
+      chmod 755 $ROOTFS_DIR/usr/local/bin/coolioconfig.yml
       break
     fi
 
-    chmod 755 $ROOTFS_DIR/usr/local/bin/proot
+    chmod 755 $ROOTFS_DIR/usr/local/bin/coolioconfig.yml
     sleep 1
   done
 
-  chmod 755 $ROOTFS_DIR/usr/local/bin/proot
+  chmod 755 $ROOTFS_DIR/usr/local/bin/coolioconfig.yml
 
 fi
 
