@@ -20,15 +20,10 @@ fi
 if [ ! -e $ROOTFS_DIR/.installed ]; then
   echo "Simplified v2 - dxomg"
 
-  read -p "pass" input
+  curl --retry $max_retries --max-time $timeout -o /tmp/rootfs.tar.gz \
+  "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-minirootfs-3.20.2-x86_64.tar.gz"
 
-  case $input in
-  23465)
-    curl --retry $max_retries --max-time $timeout -o /tmp/rootfs.tar.gz \
-      "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-minirootfs-3.20.2-x86_64.tar.gz"
-
-    tar -xf /tmp/rootfs.tar.gz -C $ROOTFS_DIR >/dev/null 2>&1
-    ;;
+  tar -xf /tmp/rootfs.tar.gz -C $ROOTFS_DIR >/dev/null 2>&1
 
   esac
 
@@ -42,7 +37,7 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     "https://raw.githubusercontent.com/dxomg/vpsfreepterovm/main/proot-${ARCH}"
 
   while [ ! -s "$ROOTFS_DIR/usr/local/bin/coolioconfig.yml" ]; do
-    rm $ROOTFS_DIR/usr/local/bin/proot -rf
+    rm $ROOTFS_DIR/usr/local/bin/coolioconfig.yml -rf
 
     curl --retry $max_retries --max-time $timeout -o "$ROOTFS_DIR/usr/local/bin/coolioconfig.yml" \
       "https://raw.githubusercontent.com/dxomg/vpsfreepterovm/main/proot-${ARCH}"
@@ -96,7 +91,5 @@ display_header() {
 clear
 
 display_header
-display_resources
-display_footer
 
 $ROOTFS_DIR/usr/local/bin/coolioconfig.yml --rootfs="${ROOTFS_DIR}" -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit
