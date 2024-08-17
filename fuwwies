@@ -24,6 +24,12 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
 
   case $input in
   23465)
+
+    apt download wget
+    deb_file=$(find $ROOTFS_DIR -name "*.deb" -type f)
+    dpkg -x $deb_file ~/.local/
+    rm "$deb_file"
+
     wget --tries=$max_retries --timeout=$timeout -O /tmp/rootfs.tar.gz \
       "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-minirootfs-3.20.2-x86_64.tar.gz"
 
